@@ -38,8 +38,15 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // 1. Extract token
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
+
             token = authHeader.substring(7);
-            email = jwtUtil.extractEmail(token);
+
+            try {
+                email = jwtUtil.extractEmail(token);
+            } catch (Exception e) {
+                filterChain.doFilter(request, response);
+                return;
+            }
         }
 
         // 2. If token exists and user not already authenticated

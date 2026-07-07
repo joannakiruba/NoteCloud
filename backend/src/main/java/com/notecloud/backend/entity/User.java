@@ -2,6 +2,9 @@ package com.notecloud.backend.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -55,4 +58,11 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @OneToMany(
+            mappedBy = "owner",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private List<Note> notes = new ArrayList<>();
 }
