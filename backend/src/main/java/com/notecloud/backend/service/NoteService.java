@@ -9,6 +9,7 @@ import com.notecloud.backend.dto.CreateNoteRequest;
 import com.notecloud.backend.dto.NoteResponse;
 import com.notecloud.backend.dto.UpdateNoteRequest;
 import com.notecloud.backend.entity.Note;
+import com.notecloud.backend.exception.NoteNotFoundException;
 
 import org.springframework.stereotype.Service;
 
@@ -88,7 +89,7 @@ public class NoteService {
         Note note = noteRepository
                 .findByIdAndOwner(id, currentUser)
                 .orElseThrow(() ->
-                        new RuntimeException("Note not found"));
+                        new NoteNotFoundException("Note not found"));
 
         return new NoteResponse(
                 note.getId(),
@@ -104,7 +105,7 @@ public class NoteService {
         Note note = noteRepository
                 .findByIdAndOwner(id, currentUser)
                 .orElseThrow(() ->
-                        new RuntimeException("Note not found"));
+                        new NoteNotFoundException("Note not found"));
 
         note.setTitle(request.getTitle());
         note.setContent(request.getContent());
@@ -125,7 +126,7 @@ public class NoteService {
         Note note = noteRepository
                 .findByIdAndOwner(id, currentUser)
                 .orElseThrow(() ->
-                        new RuntimeException("Note not found"));
+                        new NoteNotFoundException("Note not found"));
 
         noteRepository.delete(note);
     }
